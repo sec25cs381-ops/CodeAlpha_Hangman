@@ -1,8 +1,12 @@
-"""CodeAlpha Task 1: Hangman Game"""
+"""Task 1: Hangman Game (CodeAlpha)"""
 import random
 
-WORDS = ["python", "program", "laptop", "internet", "keyboard"]
+WORDS = ["python", "internship", "variable", "function", "keyboard"]
 MAX_WRONG = 6
+
+
+def display_word(word, guessed):
+    return " ".join(letter if letter in guessed else "_" for letter in word)
 
 
 def play():
@@ -14,14 +18,9 @@ def play():
     print(f"Guess the word. You can make {MAX_WRONG} wrong guesses.\n")
 
     while wrong < MAX_WRONG:
-        display = " ".join(ch if ch in guessed else "_" for ch in word)
-        print(f"Word: {display}")
+        print("Word:", display_word(word, guessed))
         print(f"Wrong guesses left: {MAX_WRONG - wrong}")
-        print(f"Guessed letters: {' '.join(sorted(guessed)) or '-'}")
-
-        if "_" not in display:
-            print(f"\nYou won! The word was '{word}'.")
-            return
+        print("Guessed letters:", " ".join(sorted(guessed)) or "-")
 
         guess = input("Enter a letter: ").strip().lower()
 
@@ -33,11 +32,16 @@ def play():
             continue
 
         guessed.add(guess)
+
         if guess in word:
             print("Good guess!\n")
         else:
             wrong += 1
             print("Wrong guess!\n")
+
+        if all(letter in guessed for letter in word):
+            print(f"You won! The word was '{word}'.")
+            return
 
     print(f"Game over! The word was '{word}'.")
 
@@ -49,3 +53,4 @@ if __name__ == "__main__":
         if again != "y":
             print("Thanks for playing!")
             break
+        print()
